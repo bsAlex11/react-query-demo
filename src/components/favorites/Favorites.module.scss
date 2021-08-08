@@ -1,0 +1,9 @@
+.moviesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  & > div {
+    min-width: 345px;
+  }
+}

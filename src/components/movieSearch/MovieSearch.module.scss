@@ -1,5 +1,11 @@
 .wrapper {
   margin-top: 40px;
+  padding: 0 30px;
+}
+
+.link {
+  display: block;
+  text-align: right;
 }
 
 .fieldsContainer {
@@ -8,5 +14,15 @@
 
   button {
     margin-left: 6px;
+  }
+}
+
+.moviesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  & > div {
+    min-width: 345px;
   }
 }
