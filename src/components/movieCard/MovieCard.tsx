@@ -3,9 +3,12 @@ import {
 Button, Card, CardActionArea, CardActions, 
 CardContent, CardMedia,
 makeStyles, Typography } from "@material-ui/core";
+import DeleteIcon from '@material-ui/icons/Delete';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Chip from '@material-ui/core/Chip';
 
-import { addToFavorites } from "../../api/requests";
 import useAddFavoriteMovie from "../../hooks/useAddFavoriteMovie/useAddFavoriteMovie";
+import useDeleteFavoriteMovie from "../../hooks/useDeleteFavoriteMovie/useDeleteFavoriteMovie";
 
 const useStyles = makeStyles({
   root: {
@@ -23,31 +26,39 @@ export type TMovie = {
   Type: string;
   Year: string;
   imdbID: string;
+  id?: number;
 };
 
 type TProps = {
   movie: TMovie;
+  isFavorite: boolean;
 };
 
-const MovieCard: FunctionComponent<TProps> = ({movie, movie: { Poster, Title } = {} as TMovie }) => {
-
+const MovieCard: FunctionComponent<TProps> = ({movie, movie: { Poster, Title, id } = {} as TMovie, isFavorite }) => {
   const [
     {
       data,
-      isLoading,
-      isError
+      isLoading: isFetchLoading,
+      isError,
+      isSuccess,
     },
     { mutate: addMovieToFavorites }
   ] = useAddFavoriteMovie();
-console.log(data, 'addedd');
+  const [
+    {
+      isLoading: isDeleteLoading,
+    },
+    { mutate: deleteFavoriteMovie }
+  ] = useDeleteFavoriteMovie();
 
   const classes = useStyles();
+
   return (
     <Card className={classes.root}>
       <CardActionArea>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
+          alt="Movie poster"
           height="140"
           image={Poster}
           title={Title}
@@ -60,14 +71,25 @@ console.log(data, 'addedd');
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button
-          size="small" 
-          color="primary"
-          variant="outlined" 
-          onClick={() => addMovieToFavorites(movie)}
-        >
-          Add to favorites
-        </Button>
+        {
+          isFetchLoading || isDeleteLoading ? 
+            <CircularProgress />
+           :
+            isFavorite && id ? (
+              <DeleteIcon onClick={() => deleteFavoriteMovie(id)}/>
+            ) :
+            ( !isSuccess ?
+              <Button
+                size="small" 
+                color="primary"
+                variant="outlined" 
+                onClick={() => addMovieToFavorites(movie)}
+              >
+                Add to favorites
+              </Button> :
+                <Chip label="Added" variant="outlined" />
+              )
+        }
       </CardActions>
     </Card>
   );

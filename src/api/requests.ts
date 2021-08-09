@@ -21,3 +21,9 @@ export const getFavoriteMovies = () => {
   return axios.get('http://localhost:3000/favorites')
   .then(response => response.data);
 }
+
+
+export const deleteFavoriteMovie = (id: number) => {
+  return axios.delete(`http://localhost:3000/favorites/${id}`)
+  .then(response => response.data);
+}
