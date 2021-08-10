@@ -7,6 +7,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Chip from '@material-ui/core/Chip';
 
+import { TMovie } from "../../types";
 import useAddFavoriteMovie from "../../hooks/useAddFavoriteMovie/useAddFavoriteMovie";
 import useDeleteFavoriteMovie from "../../hooks/useDeleteFavoriteMovie/useDeleteFavoriteMovie";
 
@@ -19,15 +20,6 @@ const useStyles = makeStyles({
     height: 140,
   },
 });
-
-export type TMovie = {
-  Poster: string;
-  Title: string;
-  Type: string;
-  Year: string;
-  imdbID: string;
-  id?: number;
-};
 
 type TProps = {
   movie: TMovie;

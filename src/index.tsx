@@ -5,7 +5,20 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
 import './index.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 import App from './App';
+
+const queryClientConfig = {
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      cacheTime: Infinity,
+    },
+  },
+};
 
 const queryClient = new QueryClient()
 

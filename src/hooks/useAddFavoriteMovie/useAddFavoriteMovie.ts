@@ -1,12 +1,21 @@
 import { ADD_MOVIE_TO_FAVORITES } from './../../api/queryKeys';
 import { addToFavorites } from './../../api/requests';
-import { TMovie } from './../../components/movieCard/MovieCard';
 import { useMutation } from "react-query";
+import { AxiosError } from 'axios';
+import { TMovie } from '../../types';
+import { toast } from 'react-toastify';
 
 const useAddFavoriteMovie = () => {
-  const { data, isLoading, isSuccess, isError, mutate } = useMutation((movie: TMovie) => addToFavorites(movie),
+  const { data, isLoading, isSuccess, isError, mutate } = useMutation<TMovie, AxiosError, TMovie>((movie: TMovie) => addToFavorites(movie),
     {
-      mutationKey: ADD_MOVIE_TO_FAVORITES
+      mutationKey: ADD_MOVIE_TO_FAVORITES,
+      onError: (error) => {
+        toast.error("Something went wrong", {
+          position: toast.POSITION.TOP_LEFT
+        });
+      },
+      onSuccess: (data) => {},
+      onSettled: (data, error) => {},
     }
   );
 
